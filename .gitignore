@@ -1,0 +1,50 @@
+# ── Secrets and environment files — NEVER commit these ─────────────────────────
+.env
+*.env
+secrets.toml
+.streamlit/secrets.toml
+
+# ── Python bytecode ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+
+# ── Virtual environments ─────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+agrilearn-env/
+
+# ── Pytest cache and coverage ────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+*.coveragerc
+
+# ── Distribution and build artifacts ────────────────────────────────────────
+dist/
+build/
+*.egg-info/
+*.egg
+
+# ── Editor and OS files ──────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Streamlit cache ──────────────────────────────────────────────────────────
+.streamlit/
+
+.env.*
+!.env.example

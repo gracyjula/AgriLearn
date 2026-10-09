@@ -1,0 +1,18 @@
+# AgriLearn AI — Python dependencies
+# Install with: pip install -r requirements.txt
+
+# ── Core application ────────────────────────────────────────────────────────
+streamlit==1.35.0
+python-dotenv==1.0.1
+
+# ── LangChain framework ─────────────────────────────────────────────────────
+langchain==0.2.16
+langchain-core==0.2.38
+langchain-google-genai==1.0.10
+
+# ── Google Generative AI client ──────────────────────────────────────────────
+google-generativeai==0.7.2
+
+# ── Testing ─────────────────────────────────────────────────────────────────
+pytest==8.2.2
+pytest-mock==3.14.0
