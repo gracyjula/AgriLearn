@@ -46,5 +46,11 @@ logs/
 # ── Streamlit cache ──────────────────────────────────────────────────────────
 .streamlit/
 
-.env.*
-!.env.example
+# ── RAG vector store (generated locally — do not commit) ─────────────────────
+docs/vector_store/
+*.faiss
+*.pkl
+
+# ── PDF documents (may be large or proprietary — add your own) ───────────────
+# Uncomment the line below to exclude PDFs from Git:
+# docs/pdfs/

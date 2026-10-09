@@ -1,5 +1,12 @@
-# AgriLearn AI — Python dependencies
-# Install with: pip install -r requirements.txt
+# AgriLearn AI — Production dependencies
+# Install with:  pip install -r requirements.txt
+#
+# Updated 2026-10:
+#   - Added RAG dependencies (pypdf, faiss-cpu, langchain-community).
+#   - Model default updated to gemini-3.5-flash (gemini-1.5-flash is shut down).
+#   - Voice I/O is implemented via browser Web Speech API (pure JS, no Python pkg).
+#   - Moved pytest/pytest-mock to requirements-dev.txt.
+#   - Pinned google-ai-generativelanguage to match installed transitive version.
 
 # ── Core application ────────────────────────────────────────────────────────
 streamlit==1.35.0
@@ -9,10 +16,17 @@ python-dotenv==1.0.1
 langchain==0.2.16
 langchain-core==0.2.38
 langchain-google-genai==1.0.10
+langchain-text-splitters==0.2.4
+
+# ── RAG dependencies ────────────────────────────────────────────────────────
+# PDF loading
+pypdf==4.3.1
+# Vector store (CPU version — no GPU required)
+faiss-cpu==1.8.0
+# LangChain community integrations (PyPDFLoader, FAISS)
+langchain-community==0.2.16
 
 # ── Google Generative AI client ──────────────────────────────────────────────
 google-generativeai==0.7.2
-
-# ── Testing ─────────────────────────────────────────────────────────────────
-pytest==8.2.2
-pytest-mock==3.14.0
+# Transitive dep — pin to match installed version and prevent unexpected breaks
+google-ai-generativelanguage==0.6.6

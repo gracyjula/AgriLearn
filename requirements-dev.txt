@@ -1,0 +1,11 @@
+# AgriLearn AI — Development / test dependencies
+# Install with:  pip install -r requirements-dev.txt
+#
+# These packages are NOT needed for running the application.
+# Install them only in development / CI environments.
+
+-r requirements.txt
+
+# ── Testing ─────────────────────────────────────────────────────────────────
+pytest==8.2.2
+pytest-mock==3.14.0

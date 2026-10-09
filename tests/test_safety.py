@@ -31,8 +31,17 @@ def make_config(with_key: bool = True) -> AppConfig:
     """Return an AppConfig with or without an API key (never a real one)."""
     cfg = AppConfig.__new__(AppConfig)
     cfg.api_key = "test-api-key-placeholder" if with_key else None
-    cfg.model_name = "gemini-1.5-flash"
+    # Use a current (non-shutdown) model name. gemini-1.5-flash was shut down.
+    cfg.model_name = "gemini-3.5-flash"
+    cfg.embedding_model_name = "gemini-embedding-001"
     cfg.temperature = 0.3
+    cfg.rag = {
+        "pdf_dir": "docs/pdfs",
+        "vector_store_dir": "docs/vector_store",
+        "chunk_size": 800,
+        "chunk_overlap": 100,
+        "top_k": 4,
+    }
     cfg.app_title = "AgriLearn AI"
     cfg.app_subtitle = "Your Smart Agriculture Learning Assistant"
     cfg.app_description = "Test instance"
@@ -255,3 +264,51 @@ def test_empty_input_rejected():
         result = check_input(bad_input)
         assert result.is_safe is False, f"Expected empty input to be rejected: '{bad_input}'"
         assert result.category == "empty_input"
+
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Bonus: educational fertilizer definition question is ALLOWED
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_educational_fertilizer_definition_allowed():
+    """
+    A plain definitional question about fertilizers must NOT be blocked.
+    The prohibited pattern requires a REQUEST_VERB + fertilizer noun combo.
+    "What is NPK fertilizer?" contains no request verb, so it must pass.
+    """
+    result = check_input("What is NPK fertilizer?")
+    assert result.is_safe is True, (
+        f"Expected educational fertilizer definition to be allowed, got: {result.reason}"
+    )
+    assert result.category == "allowed"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Bonus: voice_component helpers are importable and return correct types
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_voice_component_language_codes():
+    """voice_component.get_language_code() returns correct BCP-47 codes."""
+    from voice_component import get_language_code
+    assert get_language_code("English") == "en-US"
+    assert get_language_code("Telugu") == "te-IN"
+    assert get_language_code("Unknown") == "en-US"  # fallback
+
+
+def test_voice_component_renders_html():
+    """render_voice_input_component and render_tts_button return HTML strings."""
+    from voice_component import (
+        render_voice_input_component,
+        render_tts_button,
+        is_html_string,
+    )
+    voice_html = render_voice_input_component("English")
+    assert is_html_string(voice_html), "render_voice_input_component must return HTML"
+    assert "startListening" in voice_html, "Voice HTML must contain JS startListening"
+    assert "en-US" in voice_html, "English voice HTML must contain en-US lang code"
+
+    tts_html = render_tts_button("Test message", language="Telugu", button_id="tts_test")
+    assert is_html_string(tts_html), "render_tts_button must return HTML"
+    assert "speechSynthesis" in tts_html, "TTS HTML must contain speechSynthesis call"
+    assert "te-IN" in tts_html, "Telugu TTS HTML must contain te-IN lang code"
